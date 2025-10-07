@@ -10,22 +10,47 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+import dj_database_url
+from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+def _read_config_parameter(param_name: str) -> str | None:
+    """
+    Read a configuration parameter from the .env.local file without mutating the current environment.
+    Note that it's important that the function reads the parameter from the .env.local file first,
+    and then from the environment variables.
+    Case-insensitive.
+    """
+    param_name = param_name.upper()
+    file = Path(".env.local")
+    env_map = dotenv_values(file) if file.exists() else {}
+    value_from_env_local = env_map.get(param_name)
+    value_from_env = os.getenv(param_name)
+    return value_from_env_local or value_from_env or None
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5noi@p!+6_j$tp*&&6uxo)a4f02s&go557m=*d6oht$l120oi&'
+SECRET_KEY = _read_config_parameter('SECRET_KEY') or 'django-insecure-5noi@p!+6_j$tp*&&6uxo)a4f02s&go557m=*d6oht$l120oi&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Read ALLOWED_HOSTS from environment variables (as comma-separated strings)
 ALLOWED_HOSTS = []
+if allowed_hosts_env := _read_config_parameter('ALLOWED_HOSTS'):
+    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',')]
+
+# Read CSRF_TRUSTED_ORIGINS from environment variables (as comma-separated strings)
+CSRF_TRUSTED_ORIGINS = []
+if csrf_origins_env := _read_config_parameter('CSRF_TRUSTED_ORIGINS'):
+    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins_env.split(',')]
 
 
 # Application definition
@@ -36,7 +61,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',"django_app",
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'django_app',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'django_proj.urls'
@@ -54,7 +86,7 @@ ROOT_URLCONF = 'django_proj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,11 +104,9 @@ WSGI_APPLICATION = 'django_proj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Use dj_database_url to load database configuration from DATABASE_URL environment variable if available
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
 }
 
 
@@ -120,3 +150,25 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django AllAuth Configuration
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# AllAuth settings
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*']
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_UNIQUE_EMAIL = True
+
+# Social login settings
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = False
+
+# Redirect URLs
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

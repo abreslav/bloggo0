@@ -3,7 +3,13 @@ name = "bloggo0"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "cryptography>=46.0.2",
+    "dj-database-url>=3.0.1",
     "django>=5.2.7",
+    "django-allauth>=65.12.0",
+    "pyjwt>=2.10.1",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.5",
 ]
 
 [build-system]
