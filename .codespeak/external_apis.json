@@ -1,0 +1,35 @@
+[
+    {
+        "name": "google_oauth",
+        "use_cases": [
+            {
+                "description": "Authenticate users via Google OAuth for sign-in and automatic sign-up",
+                "spec_source_quote": "anyone can sign in/sign up with Google (there's no signup/sign-in with email/password)"
+            }
+        ],
+        "config_parameters": [
+            {
+                "name": "GOOGLE_OAUTH_CLIENT_ID",
+                "kind": "oidc",
+                "guidance": "To obtain Google OAuth Client ID:\n\n1. Go to the Google Cloud Console (https://console.cloud.google.com/)\n2. Create a new project or select an existing one\n3. Navigate to 'APIs & Services' > 'Credentials'\n4. Click 'Create Credentials' > 'OAuth 2.0 Client IDs'\n5. Select 'Web application' as the application type\n6. Add your authorized redirect URIs (see GOOGLE_OAUTH_REDIRECT_URIS configuration)\n7. Click 'Create'\n8. Copy the Client ID from the created OAuth 2.0 client",
+                "default": null
+            },
+            {
+                "name": "GOOGLE_OAUTH_CLIENT_SECRET",
+                "kind": "oidc",
+                "guidance": "To obtain Google OAuth Client Secret:\n\n1. Follow the same steps as for Client ID above\n2. After creating the OAuth 2.0 client, copy the Client Secret from the credentials page\n3. Keep this secret secure and never commit it to version control",
+                "default": null
+            },
+            {
+                "name": "GOOGLE_OAUTH_REDIRECT_URIS",
+                "kind": "oidc",
+                "guidance": "Configure the redirect URIs in your Google OAuth application:\n\n1. In Google Cloud Console, go to 'APIs & Services' > 'Credentials'\n2. Click on your OAuth 2.0 Client ID\n3. In the 'Authorized redirect URIs' section, add the URIs listed in the default value\n4. Make sure these URIs exactly match what you configure in your application\n5. For production, replace localhost/127.0.0.1 with your actual domain",
+                "default": "http://localhost:8000/accounts/google/login/callback/,http://127.0.0.1:8000/accounts/google/login/callback/"
+            }
+        ],
+        "sdk_choice": {
+            "kind": "existing",
+            "uv_package_name": "django-allauth"
+        }
+    }
+]
