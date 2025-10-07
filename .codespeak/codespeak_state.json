@@ -87,6 +87,10 @@
             {
                 "checkpoint": "{\"run\":{\"id\":\"abd30464-a1e9-4769-aaa2-0ef07f2d6f05\",\"kind\":\"build\"},\"phase_id\":\"ImplementSpecWithClaudeCode\",\"additional_id\":null}",
                 "timestamp": "2025-10-07T15:07:05.577102+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"abd30464-a1e9-4769-aaa2-0ef07f2d6f05\",\"kind\":\"build\"},\"phase_id\":\"FeedbackLoopWithClaudeCode\",\"additional_id\":null}",
+                "timestamp": "2025-10-07T15:07:07.481381+00:00"
             }
         ]
     }
