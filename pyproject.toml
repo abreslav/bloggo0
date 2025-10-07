@@ -1,0 +1,24 @@
+[project]
+name = "bloggo0"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.2.7",
+]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+DJANGO_SETTINGS_MODULE = "django_proj.settings"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "pytest-timeout>=2.4.0",
+]
