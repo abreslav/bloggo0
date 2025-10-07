@@ -1,0 +1,34 @@
+[project]
+name = "bloggo0"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "cryptography>=46.0.2",
+    "dj-database-url>=3.0.1",
+    "django>=5.2.7",
+    "django-allauth>=65.12.0",
+    "pyjwt>=2.10.1",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.5",
+]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+DJANGO_SETTINGS_MODULE = "django_proj.settings"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
+    "pytest-cov>=7.0.0",
+    "pytest-django>=4.11.1",
+    "pytest-json-report>=1.5.0",
+    "pytest-timeout>=2.4.0",
+]
