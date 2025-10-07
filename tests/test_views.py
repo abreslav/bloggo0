@@ -42,8 +42,8 @@ class TestHomeView(TestCase):
         """Test that home view shows Google login button for anonymous users."""
         response = self.client.get('/')
         self.assertContains(response, 'Get Started with Google')
-        # Check for the form action URL
-        self.assertContains(response, 'google_login')
+        # Check for the form action URL (Django allauth default URL)
+        self.assertContains(response, '/accounts/google/login/')
 
     @pytest.mark.timeout(30)
     def test_home_view_returns_200_for_authenticated_user(self):
