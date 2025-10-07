@@ -1,17 +1,21 @@
-// This is a comment. This line is ignored.
-// Here’s an example of a CodeSpeak spec file.
+Bloggo is a simple app. 
 
-HelloWorld is a simple web app that displays a greeting.
-
-# Tech Stack
+# Technology stack
 
 - Django
 - Tailwind CSS
 
-# Routing
+# Users and permissions
 
-The app responds to only one route (/).
+## Sign up / Sign in
 
-# User Interface
+- anyone can sign in/sign up with Google (there's no signup/sign-in with email/password)
+- there's no separate sign-up flow, users are signed up automatically when they sign in with Google for the first time
 
-A nice looking HTML page with the message: "Hello from CodeSpeak!"
+# UI
+
+All pages are in the same hip and elegant style.
+
+## Home page
+
+Display the user name for signed in users and a message "You are not logged in" for anonymous users.
