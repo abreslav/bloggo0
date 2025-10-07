@@ -58,7 +58,8 @@
         "external_apis": "external_apis.json",
         "commit_message": "Implement Bloggo Django app with Google OAuth integration",
         "methods_to_test_raw": "methods_to_test_raw.json",
-        "methods_to_test": "methods_to_test.json"
+        "methods_to_test": "methods_to_test.json",
+        "test_reports": "test_reports.txt"
     },
     "phase_manager": {
         "history": [
@@ -97,6 +98,10 @@
             {
                 "checkpoint": "{\"run\":{\"id\":\"abd30464-a1e9-4769-aaa2-0ef07f2d6f05\",\"kind\":\"build\"},\"phase_id\":\"AnalyzeAndPlanTests\",\"additional_id\":null}",
                 "timestamp": "2025-10-07T15:07:16.505151+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"abd30464-a1e9-4769-aaa2-0ef07f2d6f05\",\"kind\":\"build\"},\"phase_id\":\"GenerateAndRunTests\",\"additional_id\":null}",
+                "timestamp": "2025-10-07T15:09:55.893024+00:00"
             }
         ]
     }
